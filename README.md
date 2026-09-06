@@ -52,7 +52,7 @@ Targets: `android` (minSdk 24), `iosArm64`, `iosSimulatorArm64`, `iosX64`; Swift
 
 ## Who's using it
 
-- [Vocabloot](https://vocabloot.com) ([App Store](https://apps.apple.com/app/id6792888619), [Google Play](https://play.google.com/store/apps/details?id=com.tntstudios.snaplingo)): the vocabulary lock-screen and home-screen widgets on both platforms run on this exact handoff (48 images per generation, hourly rotation, "feature this word" override).
+- [Vocabloot](https://vocabloot.com) ([App Store](https://apps.apple.com/app/id6792888619), [Google Play](https://play.google.com/store/apps/details?id=com.tntstudios.snaplingo)): the vocabulary lock-screen and home-screen widgets on both platforms run on the handoff this library was extracted from (48 images per generation, hourly rotation, "feature this word" override). The app switches to the published artifact in an upcoming release.
 
 ## Install
 
