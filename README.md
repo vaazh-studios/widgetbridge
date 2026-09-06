@@ -1,5 +1,7 @@
 # WidgetBridge
 
+![WidgetBridge: one feed from the KMP app, two native widgets](docs/assets/hero.png)
+
 Typed, atomic handoff of data and images from a Kotlin Multiplatform app to its home-screen
 widgets: Jetpack Glance on Android, WidgetKit on iOS. **The widget extension never links Kotlin.**
 
