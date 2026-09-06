@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.1.0 (2026-09-06)
 
 - `WidgetBridge<T>`: typed publish with fingerprint dedupe, atomic generations, previous-generation fallback, schema check.
 - `AndroidWidgetFeedStorage` + `AppWidgetRefreshNotifier`; `IosWidgetFeedStorage` (App Group) + `NotificationCenterRefreshNotifier`.
