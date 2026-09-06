@@ -24,4 +24,21 @@
    }
    ```
 
+**Read inside the composition.** Glance keeps a session alive for tens of seconds after a render, and `update()` on a live session only recomposes; code before `provideContent` does not run again. Bump an in-process counter from the receiver and key the read on it:
+```kotlin
+class QuoteWidgetReceiver : GlanceAppWidgetReceiver() {
+    override val glanceAppWidget = QuoteWidget()
+    override fun onReceive(context: Context, intent: Intent) {
+        if (intent.action == AppWidgetManager.ACTION_APPWIDGET_UPDATE) QuoteWidget.refreshes.value++
+        super.onReceive(context, intent)
+    }
+}
+// in provideGlance:
+provideContent {
+    val refresh by QuoteWidget.refreshes.collectAsState()
+    val model = remember(refresh) { loadModel(bridge) }
+    QuoteCard(model)
+}
+```
+
 Storage is `<filesDir>/widgetbridge` (change the folder with `WidgetBridgeConfig.directoryName`). `publish` and `read` do file I/O; call them from a background dispatcher.

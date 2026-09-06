@@ -10,7 +10,10 @@ targets:
   iosApp:
     type: application
     platform: iOS
-    sources: [iosApp]
+    sources:
+      - iosApp
+      - path: iosApp/Covers
+        type: folder
     dependencies:
       - package: WidgetBridge
       - target: QuoteWidget

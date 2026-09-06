@@ -10,9 +10,16 @@
 		1C81D6F669B7BB6D2FFCCEB3 /* WidgetBridge in Frameworks */ = {isa = PBXBuildFile; productRef = D6923B966F611EC26D5E95AD /* WidgetBridge */; };
 		307C2654CD5972A25FB7FD87 /* iOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 668CECA83ACC03A83C85A623 /* iOSApp.swift */; };
 		410C76FD70CE92632958FF0F /* WidgetBridge in Frameworks */ = {isa = PBXBuildFile; productRef = 204055475EB2F440C3277C04 /* WidgetBridge */; };
+		4B5BA7633CA7A49024D8BC51 /* q5.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D40E91889B06029517461B87 /* q5.jpg */; };
 		56B0305B5D3847FC6B326502 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8509E5A49E4A5CAAEB3ADB /* ContentView.swift */; };
+		61CAAFB5826E25A811FA8A49 /* q3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FF23B947F277164272C95800 /* q3.jpg */; };
 		6F3C0FF027A3EBF5E469422C /* QuoteWidget.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = D540F2A1BD8FEF7438091A5B /* QuoteWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		8170ECC2A708992C99641283 /* q4.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 5A69A1A8DC717E510E56A979 /* q4.jpg */; };
+		8F1A2A3872B94096AC2427E0 /* q1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4E8E2A379D4C61FCDF64F6C4 /* q1.jpg */; };
+		9CEF3EA46E53699EE7FF3047 /* q6.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2491AFD20D9DC19BE90ECCF4 /* q6.jpg */; };
+		9FF2EA477D18A1A7F42B12D3 /* q2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 27218D7CAA919C4CF844E177 /* q2.jpg */; };
 		F3492211F600E60D7840DAF9 /* QuoteWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 380B1AFF86262067B5082FDC /* QuoteWidget.swift */; };
+		FB50B7DD9B851BD95BB7C1D8 /* Covers in Resources */ = {isa = PBXBuildFile; fileRef = B54142CC5E1CD12249CCC653 /* Covers */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,16 +47,23 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		2491AFD20D9DC19BE90ECCF4 /* q6.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = q6.jpg; sourceTree = "<group>"; };
+		27218D7CAA919C4CF844E177 /* q2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = q2.jpg; sourceTree = "<group>"; };
 		380B1AFF86262067B5082FDC /* QuoteWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuoteWidget.swift; sourceTree = "<group>"; };
 		499B87EF2BE3858D37FE9FFA /* QuoteWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = QuoteWidget.entitlements; sourceTree = "<group>"; };
+		4E8E2A379D4C61FCDF64F6C4 /* q1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = q1.jpg; sourceTree = "<group>"; };
+		5A69A1A8DC717E510E56A979 /* q4.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = q4.jpg; sourceTree = "<group>"; };
 		668CECA83ACC03A83C85A623 /* iOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSApp.swift; sourceTree = "<group>"; };
 		86038AE1032E284E79B32AD6 /* iosApp.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = iosApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		97CAEF2891AC40CDA6E6CDFD /* widgetbridge */ = {isa = PBXFileReference; lastKnownFileType = folder; name = widgetbridge; path = ../..; sourceTree = SOURCE_ROOT; };
+		B54142CC5E1CD12249CCC653 /* Covers */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Covers; path = iosApp/Covers; sourceTree = SOURCE_ROOT; };
 		C117AD187833E2513BD2F553 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		C49B0B02429FBBC9F867DDE1 /* iosApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = iosApp.entitlements; sourceTree = "<group>"; };
 		CE8509E5A49E4A5CAAEB3ADB /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		D40E91889B06029517461B87 /* q5.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = q5.jpg; sourceTree = "<group>"; };
 		D540F2A1BD8FEF7438091A5B /* QuoteWidget.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = QuoteWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		E179700143961558CC645408 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		FF23B947F277164272C95800 /* q3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = q3.jpg; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,6 +86,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		02848497B58256F3729634DD /* Covers */ = {
+			isa = PBXGroup;
+			children = (
+				4E8E2A379D4C61FCDF64F6C4 /* q1.jpg */,
+				27218D7CAA919C4CF844E177 /* q2.jpg */,
+				FF23B947F277164272C95800 /* q3.jpg */,
+				5A69A1A8DC717E510E56A979 /* q4.jpg */,
+				D40E91889B06029517461B87 /* q5.jpg */,
+				2491AFD20D9DC19BE90ECCF4 /* q6.jpg */,
+			);
+			path = Covers;
+			sourceTree = "<group>";
+		};
 		1DB4B685CAEE8BEFEBBAEF94 /* iosApp */ = {
 			isa = PBXGroup;
 			children = (
@@ -79,6 +106,7 @@
 				C117AD187833E2513BD2F553 /* Info.plist */,
 				C49B0B02429FBBC9F867DDE1 /* iosApp.entitlements */,
 				668CECA83ACC03A83C85A623 /* iOSApp.swift */,
+				02848497B58256F3729634DD /* Covers */,
 			);
 			path = iosApp;
 			sourceTree = "<group>";
@@ -94,6 +122,7 @@
 		38B69C3F79CD97858CF7B609 = {
 			isa = PBXGroup;
 			children = (
+				B54142CC5E1CD12249CCC653 /* Covers */,
 				1DB4B685CAEE8BEFEBBAEF94 /* iosApp */,
 				2BE9D1071031C3FC069C34FC /* Packages */,
 				598791A89EB447EA170E41B3 /* QuoteWidget */,
@@ -129,6 +158,7 @@
 			buildPhases = (
 				4B44A75E2FD10EFE3C97FCF5 /* Compile Kotlin Framework */,
 				297B59D9CE634556D6007C40 /* Sources */,
+				1623B02D10928C8101C1F806 /* Resources */,
 				EF8A6E9BFD470986D9D5C9B5 /* Frameworks */,
 				E99160E501832DB2CECE6CFF /* Embed Foundation Extensions */,
 			);
@@ -203,6 +233,23 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		1623B02D10928C8101C1F806 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FB50B7DD9B851BD95BB7C1D8 /* Covers in Resources */,
+				8F1A2A3872B94096AC2427E0 /* q1.jpg in Resources */,
+				9FF2EA477D18A1A7F42B12D3 /* q2.jpg in Resources */,
+				61CAAFB5826E25A811FA8A49 /* q3.jpg in Resources */,
+				8170ECC2A708992C99641283 /* q4.jpg in Resources */,
+				4B5BA7633CA7A49024D8BC51 /* q5.jpg in Resources */,
+				9CEF3EA46E53699EE7FF3047 /* q6.jpg in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
 		4B44A75E2FD10EFE3C97FCF5 /* Compile Kotlin Framework */ = {

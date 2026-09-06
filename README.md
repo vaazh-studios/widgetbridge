@@ -106,7 +106,7 @@ The sample app in [`sample/`](sample) is this quickstart with a UI on both platf
 
 ### See it run
 
-Add a quote in the shared Compose UI, mark it featured, go home. The Glance widget and the WidgetKit widget both show it, and neither one links the Kotlin framework.
+Add a quote in the shared Compose UI, mark it featured, go home. The Glance widget and the WidgetKit widget both show it with its cover image, and neither one links the Kotlin framework. Left alone, the card is a slideshow: every hour both platforms move to the same next quote (`WidgetRotation`), with iOS pre-scheduling a day of timeline entries and Android redrawing on `updatePeriodMillis`.
 
 | Android (Glance) | iOS (WidgetKit) |
 |---|---|
@@ -160,6 +160,7 @@ changes and when the locale changes; a debounce and a foreground trigger are twe
 - The extension has no access to your Compose resources: put localised strings in the payload.
 - iOS needs the App Group on **both** targets; without it `WidgetFeedReader(appGroup:)` returns nil and `iosWidgetBridge` throws on first use.
 - Android storage lives in the app's private files dir, so only the app's own widgets can read it. Correct for Glance, not a cross-app channel.
+- Glance keeps a widget composition alive for a while after it renders, and an update on a live session only recomposes. Read the feed **inside** `provideContent`, keyed on something the receiver bumps per update (the sample uses a `MutableStateFlow` counter), or a second `publish` within that window shows the first one's data.
 
 ## Compared with
 

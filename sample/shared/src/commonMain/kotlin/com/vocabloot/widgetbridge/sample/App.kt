@@ -45,11 +45,12 @@ fun App(onPinWidget: (() -> Unit)? = null) {
 
     // The whole "refresh policy": republish, debounced, whenever the data changes.
     LaunchedEffect(Unit) {
+        store.attachImages(withContext(Dispatchers.Default) { SampleImages.materialize(cacheDirectory()) })
         combine(store.quotes, store.featured) { _, _ -> store.feed() }
             .debounce(500.milliseconds)
             .collect { feed ->
-                status = when (val result = runCatching { withContext(Dispatchers.Default) { bridge?.publish(feed) } }.getOrElse { it }) {
-                    is PublishResult.Published -> "Published ${result.generationId} (${feed.quotes.size} quotes)"
+                status = when (val result = runCatching { withContext(Dispatchers.Default) { bridge?.publish(feed, store.assets()) } }.getOrElse { it }) {
+                    is PublishResult.Published -> "Published ${result.generationId} (${feed.quotes.size} quotes, ${result.assetBytes / 1024} KB of images)"
                     PublishResult.Unchanged -> "Unchanged"
                     null -> "Bridge unavailable: check the App Group entitlement"
                     is Throwable -> "Publish failed: ${result.message}"

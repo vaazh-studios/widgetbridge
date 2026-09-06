@@ -1,6 +1,7 @@
 package com.vocabloot.widgetbridge.sample
 
 import android.content.Context
+import java.io.File
 import com.vocabloot.widgetbridge.WidgetBridge
 import com.vocabloot.widgetbridge.WidgetBridgeConfig
 import com.vocabloot.widgetbridge.androidWidgetBridge
@@ -19,3 +20,13 @@ actual fun createQuoteBridge(): WidgetBridge<QuoteFeed> = androidWidgetBridge(
 )
 
 actual fun nowEpochMs(): Long = System.currentTimeMillis()
+
+actual fun cacheDirectory(): String = PlatformHolder.appContext.cacheDir.absolutePath
+
+actual fun ensureDirectory(path: String) { File(path).mkdirs() }
+
+actual fun fileExists(path: String): Boolean = File(path).isFile
+
+actual fun writeFile(path: String, bytes: ByteArray) = File(path).writeBytes(bytes)
+
+actual fun readBundledCover(name: String): ByteArray = PlatformHolder.appContext.assets.open("covers/$name").use { it.readBytes() }
