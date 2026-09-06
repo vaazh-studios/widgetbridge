@@ -33,10 +33,11 @@ import kotlinx.coroutines.withContext
 import kotlin.time.Duration.Companion.milliseconds
 
 @OptIn(FlowPreview::class)
+/** [onPinWidget] is Android's "Add widget to home screen" request; null on iOS, where the user adds widgets from the home screen. */
 @Composable
-fun App() {
+fun App(onPinWidget: (() -> Unit)? = null) {
     val store = remember { QuoteStore() }
-    val bridge = remember { createQuoteBridge() }
+    val bridge = remember { runCatching { createQuoteBridge() }.getOrNull() }
     val quotes by store.quotes.collectAsState()
     var text by remember { mutableStateOf("") }
     var author by remember { mutableStateOf("") }
@@ -47,9 +48,12 @@ fun App() {
         combine(store.quotes, store.featured) { _, _ -> store.feed() }
             .debounce(500.milliseconds)
             .collect { feed ->
-                status = when (val result = withContext(Dispatchers.Default) { bridge.publish(feed) }) {
+                status = when (val result = runCatching { withContext(Dispatchers.Default) { bridge?.publish(feed) } }.getOrElse { it }) {
                     is PublishResult.Published -> "Published ${result.generationId} (${feed.quotes.size} quotes)"
                     PublishResult.Unchanged -> "Unchanged"
+                    null -> "Bridge unavailable: check the App Group entitlement"
+                    is Throwable -> "Publish failed: ${result.message}"
+                    else -> status
                 }
             }
     }
@@ -69,6 +73,10 @@ fun App() {
                     ) { Text("Add") }
                 }
                 Spacer(Modifier.height(12.dp))
+                onPinWidget?.let { pin ->
+                    Button(onClick = pin, modifier = Modifier.fillMaxWidth()) { Text("Add widget to home screen") }
+                    Spacer(Modifier.height(8.dp))
+                }
                 LazyColumn(Modifier.weight(1f)) {
                     items(quotes, key = { it.id }) { quote ->
                         Column(Modifier.fillMaxWidth().padding(vertical = 6.dp)) {

@@ -104,6 +104,16 @@ let image = feed.assetURL("\(feed.payload.quotes[index].id).jpg").flatMap { UIIm
 
 The sample app in [`sample/`](sample) is this quickstart with a UI on both platforms.
 
+### See it run
+
+Add a quote in the shared Compose UI, mark it featured, go home. The Glance widget and the WidgetKit widget both show it, and neither one links the Kotlin framework.
+
+| Android (Glance) | iOS (WidgetKit) |
+|---|---|
+| ![Android demo: add a quote, the Glance widget updates](docs/assets/demo-android.gif) | ![iOS demo: add a quote, the WidgetKit widget updates](docs/assets/demo-ios.gif) |
+
+MP4 versions: [Android](docs/assets/demo-android.mp4), [iOS](docs/assets/demo-ios.mp4). Recorded on a Pixel 9 Pro XL emulator and an iPhone 17 Pro simulator from the code in `sample/`.
+
 ## How it works
 
 ```mermaid
