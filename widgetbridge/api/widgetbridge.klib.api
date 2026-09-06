@@ -6,6 +6,19 @@
 // - Show declarations: true
 
 // Library unique name: <com.vocabloot:widgetbridge>
+final enum class com.vocabloot.widgetbridge/WidgetImageFormat : kotlin/Enum<com.vocabloot.widgetbridge/WidgetImageFormat> { // com.vocabloot.widgetbridge/WidgetImageFormat|null[0]
+    enum entry Jpeg // com.vocabloot.widgetbridge/WidgetImageFormat.Jpeg|null[0]
+    enum entry Png // com.vocabloot.widgetbridge/WidgetImageFormat.Png|null[0]
+
+    final val entries // com.vocabloot.widgetbridge/WidgetImageFormat.entries|#static{}entries[0]
+        final fun <get-entries>(): kotlin.enums/EnumEntries<com.vocabloot.widgetbridge/WidgetImageFormat> // com.vocabloot.widgetbridge/WidgetImageFormat.entries.<get-entries>|<get-entries>#static(){}[0]
+    final val extension // com.vocabloot.widgetbridge/WidgetImageFormat.extension|{}extension[0]
+        final fun <get-extension>(): kotlin/String // com.vocabloot.widgetbridge/WidgetImageFormat.extension.<get-extension>|<get-extension>(){}[0]
+
+    final fun valueOf(kotlin/String): com.vocabloot.widgetbridge/WidgetImageFormat // com.vocabloot.widgetbridge/WidgetImageFormat.valueOf|valueOf#static(kotlin.String){}[0]
+    final fun values(): kotlin/Array<com.vocabloot.widgetbridge/WidgetImageFormat> // com.vocabloot.widgetbridge/WidgetImageFormat.values|values#static(){}[0]
+}
+
 abstract fun interface com.vocabloot.widgetbridge/WidgetRefreshNotifier { // com.vocabloot.widgetbridge/WidgetRefreshNotifier|null[0]
     abstract fun notifyChanged() // com.vocabloot.widgetbridge/WidgetRefreshNotifier.notifyChanged|notifyChanged(){}[0]
 
@@ -69,6 +82,32 @@ final class <#A: kotlin/Any?> com.vocabloot.widgetbridge/WidgetBridge { // com.v
     final suspend fun publish(#A, kotlin.collections/List<com.vocabloot.widgetbridge/WidgetAsset> = ...): com.vocabloot.widgetbridge/PublishResult // com.vocabloot.widgetbridge/WidgetBridge.publish|publish(1:0;kotlin.collections.List<com.vocabloot.widgetbridge.WidgetAsset>){}[0]
 }
 
+final class com.vocabloot.widgetbridge/AssetBudget { // com.vocabloot.widgetbridge/AssetBudget|null[0]
+    constructor <init>(kotlin/Long = ..., kotlin/Int = ..., kotlin/Int = ..., kotlin/Function3<com.vocabloot.widgetbridge/AssetCandidate, kotlin/Int, kotlin/Int, com.vocabloot.widgetbridge/EncodedImage?> = ...) // com.vocabloot.widgetbridge/AssetBudget.<init>|<init>(kotlin.Long;kotlin.Int;kotlin.Int;kotlin.Function3<com.vocabloot.widgetbridge.AssetCandidate,kotlin.Int,kotlin.Int,com.vocabloot.widgetbridge.EncodedImage?>){}[0]
+
+    final fun pack(kotlin.collections/List<com.vocabloot.widgetbridge/AssetCandidate>): kotlin.collections/List<com.vocabloot.widgetbridge/WidgetAsset> // com.vocabloot.widgetbridge/AssetBudget.pack|pack(kotlin.collections.List<com.vocabloot.widgetbridge.AssetCandidate>){}[0]
+}
+
+final class com.vocabloot.widgetbridge/AssetCandidate { // com.vocabloot.widgetbridge/AssetCandidate|null[0]
+    constructor <init>(kotlin/String, kotlin/String, com.vocabloot.widgetbridge/WidgetImageFormat) // com.vocabloot.widgetbridge/AssetCandidate.<init>|<init>(kotlin.String;kotlin.String;com.vocabloot.widgetbridge.WidgetImageFormat){}[0]
+
+    final val fileName // com.vocabloot.widgetbridge/AssetCandidate.fileName|{}fileName[0]
+        final fun <get-fileName>(): kotlin/String // com.vocabloot.widgetbridge/AssetCandidate.fileName.<get-fileName>|<get-fileName>(){}[0]
+    final val format // com.vocabloot.widgetbridge/AssetCandidate.format|{}format[0]
+        final fun <get-format>(): com.vocabloot.widgetbridge/WidgetImageFormat // com.vocabloot.widgetbridge/AssetCandidate.format.<get-format>|<get-format>(){}[0]
+    final val sourcePath // com.vocabloot.widgetbridge/AssetCandidate.sourcePath|{}sourcePath[0]
+        final fun <get-sourcePath>(): kotlin/String // com.vocabloot.widgetbridge/AssetCandidate.sourcePath.<get-sourcePath>|<get-sourcePath>(){}[0]
+}
+
+final class com.vocabloot.widgetbridge/EncodedImage { // com.vocabloot.widgetbridge/EncodedImage|null[0]
+    constructor <init>(kotlin/ByteArray, kotlin/String) // com.vocabloot.widgetbridge/EncodedImage.<init>|<init>(kotlin.ByteArray;kotlin.String){}[0]
+
+    final val bytes // com.vocabloot.widgetbridge/EncodedImage.bytes|{}bytes[0]
+        final fun <get-bytes>(): kotlin/ByteArray // com.vocabloot.widgetbridge/EncodedImage.bytes.<get-bytes>|<get-bytes>(){}[0]
+    final val extension // com.vocabloot.widgetbridge/EncodedImage.extension|{}extension[0]
+        final fun <get-extension>(): kotlin/String // com.vocabloot.widgetbridge/EncodedImage.extension.<get-extension>|<get-extension>(){}[0]
+}
+
 final class com.vocabloot.widgetbridge/IosWidgetFeedStorage : com.vocabloot.widgetbridge/WidgetFeedStorage { // com.vocabloot.widgetbridge/IosWidgetFeedStorage|null[0]
     constructor <init>(kotlin/String, kotlin/String) // com.vocabloot.widgetbridge/IosWidgetFeedStorage.<init>|<init>(kotlin.String;kotlin.String){}[0]
 
@@ -124,6 +163,16 @@ final class com.vocabloot.widgetbridge/WidgetGeneration { // com.vocabloot.widge
         final fun <get-feedBytes>(): kotlin/ByteArray // com.vocabloot.widgetbridge/WidgetGeneration.feedBytes.<get-feedBytes>|<get-feedBytes>(){}[0]
     final val id // com.vocabloot.widgetbridge/WidgetGeneration.id|{}id[0]
         final fun <get-id>(): kotlin/String // com.vocabloot.widgetbridge/WidgetGeneration.id.<get-id>|<get-id>(){}[0]
+}
+
+final object com.vocabloot.widgetbridge/WidgetImages { // com.vocabloot.widgetbridge/WidgetImages|null[0]
+    final fun encode(kotlin/String, com.vocabloot.widgetbridge/WidgetImageFormat, kotlin/Int = ..., kotlin/Int = ...): com.vocabloot.widgetbridge/EncodedImage? // com.vocabloot.widgetbridge/WidgetImages.encode|encode(kotlin.String;com.vocabloot.widgetbridge.WidgetImageFormat;kotlin.Int;kotlin.Int){}[0]
+}
+
+final object com.vocabloot.widgetbridge/WidgetRotation { // com.vocabloot.widgetbridge/WidgetRotation|null[0]
+    final fun hourSlot(kotlin/Long, kotlin/Int): kotlin/Long // com.vocabloot.widgetbridge/WidgetRotation.hourSlot|hourSlot(kotlin.Long;kotlin.Int){}[0]
+    final fun index(kotlin/Long, kotlin/Int): kotlin/Int // com.vocabloot.widgetbridge/WidgetRotation.index|index(kotlin.Long;kotlin.Int){}[0]
+    final fun stableHash(kotlin/String): kotlin/UInt // com.vocabloot.widgetbridge/WidgetRotation.stableHash|stableHash(kotlin.String){}[0]
 }
 
 final const val com.vocabloot.widgetbridge/WIDGET_BRIDGE_FEED_CHANGED // com.vocabloot.widgetbridge/WIDGET_BRIDGE_FEED_CHANGED|{}WIDGET_BRIDGE_FEED_CHANGED[0]

@@ -1,0 +1,19 @@
+{
+  "hourSlot": [
+    {"epochMs": 0, "zoneOffsetSeconds": 0, "slot": 0},
+    {"epochMs": 3600000, "zoneOffsetSeconds": 0, "slot": 1},
+    {"epochMs": 0, "zoneOffsetSeconds": 3600, "slot": 1},
+    {"epochMs": -1, "zoneOffsetSeconds": 0, "slot": -1},
+    {"epochMs": 1789250400000, "zoneOffsetSeconds": 7200, "slot": 497016}
+  ],
+  "index": [
+    {"slot": 5, "count": 3, "index": 2},
+    {"slot": 6, "count": 3, "index": 0},
+    {"slot": -1, "count": 3, "index": 2}
+  ],
+  "stableHash": [
+    {"value": "", "hash": 2166136261},
+    {"value": "a", "hash": 3826002220},
+    {"value": "foobar", "hash": 3214735720}
+  ]
+}
