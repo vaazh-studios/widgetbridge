@@ -69,6 +69,21 @@ final class <#A: kotlin/Any?> com.vocabloot.widgetbridge/WidgetBridge { // com.v
     final suspend fun publish(#A, kotlin.collections/List<com.vocabloot.widgetbridge/WidgetAsset> = ...): com.vocabloot.widgetbridge/PublishResult // com.vocabloot.widgetbridge/WidgetBridge.publish|publish(1:0;kotlin.collections.List<com.vocabloot.widgetbridge.WidgetAsset>){}[0]
 }
 
+final class com.vocabloot.widgetbridge/IosWidgetFeedStorage : com.vocabloot.widgetbridge/WidgetFeedStorage { // com.vocabloot.widgetbridge/IosWidgetFeedStorage|null[0]
+    constructor <init>(kotlin/String, kotlin/String) // com.vocabloot.widgetbridge/IosWidgetFeedStorage.<init>|<init>(kotlin.String;kotlin.String){}[0]
+
+    final fun assetPath(kotlin/String, kotlin/String): kotlin/String? // com.vocabloot.widgetbridge/IosWidgetFeedStorage.assetPath|assetPath(kotlin.String;kotlin.String){}[0]
+    final fun clear() // com.vocabloot.widgetbridge/IosWidgetFeedStorage.clear|clear(){}[0]
+    final fun readGenerationCandidates(): kotlin.collections/List<com.vocabloot.widgetbridge/WidgetGeneration> // com.vocabloot.widgetbridge/IosWidgetFeedStorage.readGenerationCandidates|readGenerationCandidates(){}[0]
+    final fun writeGeneration(kotlin/String, kotlin/ByteArray, kotlin.collections/List<com.vocabloot.widgetbridge/WidgetAsset>, kotlin/Int) // com.vocabloot.widgetbridge/IosWidgetFeedStorage.writeGeneration|writeGeneration(kotlin.String;kotlin.ByteArray;kotlin.collections.List<com.vocabloot.widgetbridge.WidgetAsset>;kotlin.Int){}[0]
+}
+
+final class com.vocabloot.widgetbridge/NotificationCenterRefreshNotifier : com.vocabloot.widgetbridge/WidgetRefreshNotifier { // com.vocabloot.widgetbridge/NotificationCenterRefreshNotifier|null[0]
+    constructor <init>() // com.vocabloot.widgetbridge/NotificationCenterRefreshNotifier.<init>|<init>(){}[0]
+
+    final fun notifyChanged() // com.vocabloot.widgetbridge/NotificationCenterRefreshNotifier.notifyChanged|notifyChanged(){}[0]
+}
+
 final class com.vocabloot.widgetbridge/WidgetAsset { // com.vocabloot.widgetbridge/WidgetAsset|null[0]
     constructor <init>(kotlin/String, kotlin/ByteArray) // com.vocabloot.widgetbridge/WidgetAsset.<init>|<init>(kotlin.String;kotlin.ByteArray){}[0]
 
@@ -111,4 +126,8 @@ final class com.vocabloot.widgetbridge/WidgetGeneration { // com.vocabloot.widge
         final fun <get-id>(): kotlin/String // com.vocabloot.widgetbridge/WidgetGeneration.id.<get-id>|<get-id>(){}[0]
 }
 
+final const val com.vocabloot.widgetbridge/WIDGET_BRIDGE_FEED_CHANGED // com.vocabloot.widgetbridge/WIDGET_BRIDGE_FEED_CHANGED|{}WIDGET_BRIDGE_FEED_CHANGED[0]
+    final fun <get-WIDGET_BRIDGE_FEED_CHANGED>(): kotlin/String // com.vocabloot.widgetbridge/WIDGET_BRIDGE_FEED_CHANGED.<get-WIDGET_BRIDGE_FEED_CHANGED>|<get-WIDGET_BRIDGE_FEED_CHANGED>(){}[0]
+
+final fun <#A: kotlin/Any?> com.vocabloot.widgetbridge/iosWidgetBridge(com.vocabloot.widgetbridge/WidgetBridgeConfig, kotlinx.serialization/KSerializer<#A>): com.vocabloot.widgetbridge/WidgetBridge<#A> // com.vocabloot.widgetbridge/iosWidgetBridge|iosWidgetBridge(com.vocabloot.widgetbridge.WidgetBridgeConfig;kotlinx.serialization.KSerializer<0:0>){0§<kotlin.Any?>}[0]
 final fun com.vocabloot.widgetbridge/isSafeName(kotlin/String): kotlin/Boolean // com.vocabloot.widgetbridge/isSafeName|isSafeName(kotlin.String){}[0]
