@@ -16,3 +16,5 @@ dependencyResolutionManagement {
 }
 
 include(":widgetbridge")
+include(":sample:shared")
+include(":sample:androidApp")

@@ -1,0 +1,43 @@
+name: iosApp
+options:
+  bundleIdPrefix: com.vocabloot.widgetbridge
+  deploymentTarget:
+    iOS: "16.0"
+packages:
+  WidgetBridge:
+    path: ../..
+targets:
+  iosApp:
+    type: application
+    platform: iOS
+    sources: [iosApp]
+    dependencies:
+      - package: WidgetBridge
+      - target: QuoteWidget
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.vocabloot.widgetbridge.sample
+        CODE_SIGN_ENTITLEMENTS: iosApp/iosApp.entitlements
+        DEVELOPMENT_TEAM: ""
+        FRAMEWORK_SEARCH_PATHS: $(SRCROOT)/../shared/build/xcode-frameworks/$(CONFIGURATION)/$(SDK_NAME)
+        OTHER_LDFLAGS: $(inherited) -framework ComposeApp
+        INFOPLIST_FILE: iosApp/Info.plist
+        "EXCLUDED_ARCHS[sdk=iphonesimulator*]": x86_64
+    preBuildScripts:
+      - name: Compile Kotlin Framework
+        script: |
+          cd "$SRCROOT/../.."
+          ./gradlew :sample:shared:embedAndSignAppleFrameworkForXcode
+  QuoteWidget:
+    type: app-extension
+    platform: iOS
+    sources: [QuoteWidget]
+    dependencies:
+      - package: WidgetBridge
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.vocabloot.widgetbridge.sample.QuoteWidget
+        CODE_SIGN_ENTITLEMENTS: QuoteWidget/QuoteWidget.entitlements
+        INFOPLIST_FILE: QuoteWidget/Info.plist
+        DEVELOPMENT_TEAM: ""
+        "EXCLUDED_ARCHS[sdk=iphonesimulator*]": x86_64
