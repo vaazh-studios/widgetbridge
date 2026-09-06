@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.maven.publish)
     alias(libs.plugins.bcv)
+    alias(libs.plugins.dokka)
 }
 
 group = "com.vocabloot"
@@ -73,4 +74,19 @@ mavenPublishing {
 @OptIn(kotlinx.validation.ExperimentalBCVApi::class)
 apiValidation {
     klib { enabled = true }
+}
+
+dokka {
+    moduleName.set("WidgetBridge")
+    dokkaSourceSets.configureEach {
+        includes.from("Module.md")
+        sourceLink {
+            localDirectory.set(file("src"))
+            remoteUrl("https://github.com/vaazh-studios/widgetbridge/tree/main/widgetbridge/src")
+            remoteLineSuffix.set("#L")
+        }
+    }
+    pluginsConfiguration.html {
+        footerMessage.set("WidgetBridge, Apache 2.0, Vaazh Studios")
+    }
 }

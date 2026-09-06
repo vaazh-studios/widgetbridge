@@ -10,6 +10,7 @@ widgets: Jetpack Glance on Android, WidgetKit on iOS. **The widget extension nev
 [![CI](https://github.com/vaazh-studios/widgetbridge/actions/workflows/ci.yml/badge.svg)](https://github.com/vaazh-studios/widgetbridge/actions/workflows/ci.yml)
 [![Kotlin](https://img.shields.io/badge/Kotlin-2.3.20-7F52FF?logo=kotlin&logoColor=white)](https://kotlinlang.org)
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
+[![API reference](https://img.shields.io/badge/API-reference-blue)](https://vaazh-studios.github.io/widgetbridge/)
 
 ## The problem
 
@@ -103,6 +104,25 @@ The sample app in [`sample/`](sample) is this quickstart with a UI on both platf
 
 ## How it works
 
+```mermaid
+flowchart LR
+    subgraph App["App process (Kotlin Multiplatform)"]
+        P["WidgetBridge.publish(payload, assets)"]
+    end
+    P -->|"1. write generations/&lt;id&gt;.tmp/"| T[assets/ + feed.json]
+    T -->|"2. rename to generations/&lt;id&gt;/"| G[(generation folder)]
+    G -->|"3. current.json switches"| C{{current.json}}
+    C -->|4. redraw request| OS[OS]
+    subgraph Widgets["Widget processes"]
+        GL["Glance widget<br/>bridge.read()"]
+        WK["WidgetKit extension<br/>WidgetFeedReader (Swift)<br/><b>no Kotlin linked</b>"]
+    end
+    C -.-> GL
+    C -.-> WK
+    style WK fill:#eef6ff,stroke:#7aa7d9
+    style GL fill:#eefbf0,stroke:#7fc28f
+```
+
 ```
 <root>/widgetbridge/
   current.json                 {"current":"<id>","previous":["<id>"]}
@@ -146,7 +166,7 @@ changes and when the locale changes; a debounce and a foreground trigger are twe
 - [Feed format and reader rules](docs/feed-format.md)
 - [When to publish](docs/refresh.md)
 - [Design](docs/design.md), [Publishing](docs/publishing.md) (maintainers)
-- Kotlin ABI tracked in [`widgetbridge/api`](widgetbridge/api); KDoc on every public declaration.
+- [API reference](https://vaazh-studios.github.io/widgetbridge/) (Dokka); Kotlin ABI tracked in [`widgetbridge/api`](widgetbridge/api).
 
 ## Dependencies
 
