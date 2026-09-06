@@ -14,3 +14,32 @@ abstract fun interface com.vocabloot.widgetbridge/WidgetRefreshNotifier { // com
             final fun <get-None>(): com.vocabloot.widgetbridge/WidgetRefreshNotifier // com.vocabloot.widgetbridge/WidgetRefreshNotifier.Companion.None.<get-None>|<get-None>(){}[0]
     }
 }
+
+abstract interface com.vocabloot.widgetbridge/WidgetFeedStorage { // com.vocabloot.widgetbridge/WidgetFeedStorage|null[0]
+    abstract fun assetPath(kotlin/String, kotlin/String): kotlin/String? // com.vocabloot.widgetbridge/WidgetFeedStorage.assetPath|assetPath(kotlin.String;kotlin.String){}[0]
+    abstract fun clear() // com.vocabloot.widgetbridge/WidgetFeedStorage.clear|clear(){}[0]
+    abstract fun readGenerationCandidates(): kotlin.collections/List<com.vocabloot.widgetbridge/WidgetGeneration> // com.vocabloot.widgetbridge/WidgetFeedStorage.readGenerationCandidates|readGenerationCandidates(){}[0]
+    abstract fun writeGeneration(kotlin/String, kotlin/ByteArray, kotlin.collections/List<com.vocabloot.widgetbridge/WidgetAsset>, kotlin/Int) // com.vocabloot.widgetbridge/WidgetFeedStorage.writeGeneration|writeGeneration(kotlin.String;kotlin.ByteArray;kotlin.collections.List<com.vocabloot.widgetbridge.WidgetAsset>;kotlin.Int){}[0]
+}
+
+final class com.vocabloot.widgetbridge/WidgetAsset { // com.vocabloot.widgetbridge/WidgetAsset|null[0]
+    constructor <init>(kotlin/String, kotlin/ByteArray) // com.vocabloot.widgetbridge/WidgetAsset.<init>|<init>(kotlin.String;kotlin.ByteArray){}[0]
+
+    final val bytes // com.vocabloot.widgetbridge/WidgetAsset.bytes|{}bytes[0]
+        final fun <get-bytes>(): kotlin/ByteArray // com.vocabloot.widgetbridge/WidgetAsset.bytes.<get-bytes>|<get-bytes>(){}[0]
+    final val fileName // com.vocabloot.widgetbridge/WidgetAsset.fileName|{}fileName[0]
+        final fun <get-fileName>(): kotlin/String // com.vocabloot.widgetbridge/WidgetAsset.fileName.<get-fileName>|<get-fileName>(){}[0]
+}
+
+final class com.vocabloot.widgetbridge/WidgetGeneration { // com.vocabloot.widgetbridge/WidgetGeneration|null[0]
+    constructor <init>(kotlin/String, kotlin/String, kotlin/ByteArray) // com.vocabloot.widgetbridge/WidgetGeneration.<init>|<init>(kotlin.String;kotlin.String;kotlin.ByteArray){}[0]
+
+    final val directoryPath // com.vocabloot.widgetbridge/WidgetGeneration.directoryPath|{}directoryPath[0]
+        final fun <get-directoryPath>(): kotlin/String // com.vocabloot.widgetbridge/WidgetGeneration.directoryPath.<get-directoryPath>|<get-directoryPath>(){}[0]
+    final val feedBytes // com.vocabloot.widgetbridge/WidgetGeneration.feedBytes|{}feedBytes[0]
+        final fun <get-feedBytes>(): kotlin/ByteArray // com.vocabloot.widgetbridge/WidgetGeneration.feedBytes.<get-feedBytes>|<get-feedBytes>(){}[0]
+    final val id // com.vocabloot.widgetbridge/WidgetGeneration.id|{}id[0]
+        final fun <get-id>(): kotlin/String // com.vocabloot.widgetbridge/WidgetGeneration.id.<get-id>|<get-id>(){}[0]
+}
+
+final fun com.vocabloot.widgetbridge/isSafeName(kotlin/String): kotlin/Boolean // com.vocabloot.widgetbridge/isSafeName|isSafeName(kotlin.String){}[0]
