@@ -22,6 +22,53 @@ abstract interface com.vocabloot.widgetbridge/WidgetFeedStorage { // com.vocablo
     abstract fun writeGeneration(kotlin/String, kotlin/ByteArray, kotlin.collections/List<com.vocabloot.widgetbridge/WidgetAsset>, kotlin/Int) // com.vocabloot.widgetbridge/WidgetFeedStorage.writeGeneration|writeGeneration(kotlin.String;kotlin.ByteArray;kotlin.collections.List<com.vocabloot.widgetbridge.WidgetAsset>;kotlin.Int){}[0]
 }
 
+sealed interface com.vocabloot.widgetbridge/PublishResult { // com.vocabloot.widgetbridge/PublishResult|null[0]
+    final class Published : com.vocabloot.widgetbridge/PublishResult { // com.vocabloot.widgetbridge/PublishResult.Published|null[0]
+        constructor <init>(kotlin/String, kotlin/Long) // com.vocabloot.widgetbridge/PublishResult.Published.<init>|<init>(kotlin.String;kotlin.Long){}[0]
+
+        final val assetBytes // com.vocabloot.widgetbridge/PublishResult.Published.assetBytes|{}assetBytes[0]
+            final fun <get-assetBytes>(): kotlin/Long // com.vocabloot.widgetbridge/PublishResult.Published.assetBytes.<get-assetBytes>|<get-assetBytes>(){}[0]
+        final val generationId // com.vocabloot.widgetbridge/PublishResult.Published.generationId|{}generationId[0]
+            final fun <get-generationId>(): kotlin/String // com.vocabloot.widgetbridge/PublishResult.Published.generationId.<get-generationId>|<get-generationId>(){}[0]
+
+        final fun component1(): kotlin/String // com.vocabloot.widgetbridge/PublishResult.Published.component1|component1(){}[0]
+        final fun component2(): kotlin/Long // com.vocabloot.widgetbridge/PublishResult.Published.component2|component2(){}[0]
+        final fun copy(kotlin/String = ..., kotlin/Long = ...): com.vocabloot.widgetbridge/PublishResult.Published // com.vocabloot.widgetbridge/PublishResult.Published.copy|copy(kotlin.String;kotlin.Long){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.vocabloot.widgetbridge/PublishResult.Published.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.vocabloot.widgetbridge/PublishResult.Published.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.vocabloot.widgetbridge/PublishResult.Published.toString|toString(){}[0]
+    }
+
+    final object Unchanged : com.vocabloot.widgetbridge/PublishResult { // com.vocabloot.widgetbridge/PublishResult.Unchanged|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.vocabloot.widgetbridge/PublishResult.Unchanged.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.vocabloot.widgetbridge/PublishResult.Unchanged.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.vocabloot.widgetbridge/PublishResult.Unchanged.toString|toString(){}[0]
+    }
+}
+
+final class <#A: kotlin/Any?> com.vocabloot.widgetbridge/ResolvedFeed { // com.vocabloot.widgetbridge/ResolvedFeed|null[0]
+    final val directory // com.vocabloot.widgetbridge/ResolvedFeed.directory|{}directory[0]
+        final fun <get-directory>(): kotlin/String // com.vocabloot.widgetbridge/ResolvedFeed.directory.<get-directory>|<get-directory>(){}[0]
+    final val fingerprint // com.vocabloot.widgetbridge/ResolvedFeed.fingerprint|{}fingerprint[0]
+        final fun <get-fingerprint>(): kotlin/String // com.vocabloot.widgetbridge/ResolvedFeed.fingerprint.<get-fingerprint>|<get-fingerprint>(){}[0]
+    final val generatedAtEpochMs // com.vocabloot.widgetbridge/ResolvedFeed.generatedAtEpochMs|{}generatedAtEpochMs[0]
+        final fun <get-generatedAtEpochMs>(): kotlin/Long // com.vocabloot.widgetbridge/ResolvedFeed.generatedAtEpochMs.<get-generatedAtEpochMs>|<get-generatedAtEpochMs>(){}[0]
+    final val generationId // com.vocabloot.widgetbridge/ResolvedFeed.generationId|{}generationId[0]
+        final fun <get-generationId>(): kotlin/String // com.vocabloot.widgetbridge/ResolvedFeed.generationId.<get-generationId>|<get-generationId>(){}[0]
+    final val payload // com.vocabloot.widgetbridge/ResolvedFeed.payload|{}payload[0]
+        final fun <get-payload>(): #A // com.vocabloot.widgetbridge/ResolvedFeed.payload.<get-payload>|<get-payload>(){}[0]
+
+    final fun assetPath(kotlin/String): kotlin/String? // com.vocabloot.widgetbridge/ResolvedFeed.assetPath|assetPath(kotlin.String){}[0]
+}
+
+final class <#A: kotlin/Any?> com.vocabloot.widgetbridge/WidgetBridge { // com.vocabloot.widgetbridge/WidgetBridge|null[0]
+    constructor <init>(com.vocabloot.widgetbridge/WidgetBridgeConfig, kotlinx.serialization/KSerializer<#A>, com.vocabloot.widgetbridge/WidgetFeedStorage, com.vocabloot.widgetbridge/WidgetRefreshNotifier, kotlin/Function0<kotlin/Long> = ...) // com.vocabloot.widgetbridge/WidgetBridge.<init>|<init>(com.vocabloot.widgetbridge.WidgetBridgeConfig;kotlinx.serialization.KSerializer<1:0>;com.vocabloot.widgetbridge.WidgetFeedStorage;com.vocabloot.widgetbridge.WidgetRefreshNotifier;kotlin.Function0<kotlin.Long>){}[0]
+
+    final fun clear() // com.vocabloot.widgetbridge/WidgetBridge.clear|clear(){}[0]
+    final fun read(): com.vocabloot.widgetbridge/ResolvedFeed<#A>? // com.vocabloot.widgetbridge/WidgetBridge.read|read(){}[0]
+    final suspend fun publish(#A, kotlin.collections/List<com.vocabloot.widgetbridge/WidgetAsset> = ...): com.vocabloot.widgetbridge/PublishResult // com.vocabloot.widgetbridge/WidgetBridge.publish|publish(1:0;kotlin.collections.List<com.vocabloot.widgetbridge.WidgetAsset>){}[0]
+}
+
 final class com.vocabloot.widgetbridge/WidgetAsset { // com.vocabloot.widgetbridge/WidgetAsset|null[0]
     constructor <init>(kotlin/String, kotlin/ByteArray) // com.vocabloot.widgetbridge/WidgetAsset.<init>|<init>(kotlin.String;kotlin.ByteArray){}[0]
 
@@ -29,6 +76,28 @@ final class com.vocabloot.widgetbridge/WidgetAsset { // com.vocabloot.widgetbrid
         final fun <get-bytes>(): kotlin/ByteArray // com.vocabloot.widgetbridge/WidgetAsset.bytes.<get-bytes>|<get-bytes>(){}[0]
     final val fileName // com.vocabloot.widgetbridge/WidgetAsset.fileName|{}fileName[0]
         final fun <get-fileName>(): kotlin/String // com.vocabloot.widgetbridge/WidgetAsset.fileName.<get-fileName>|<get-fileName>(){}[0]
+}
+
+final class com.vocabloot.widgetbridge/WidgetBridgeConfig { // com.vocabloot.widgetbridge/WidgetBridgeConfig|null[0]
+    constructor <init>(kotlin/Int, kotlin/String = ..., kotlin/String? = ..., kotlin/Int = ...) // com.vocabloot.widgetbridge/WidgetBridgeConfig.<init>|<init>(kotlin.Int;kotlin.String;kotlin.String?;kotlin.Int){}[0]
+
+    final val directoryName // com.vocabloot.widgetbridge/WidgetBridgeConfig.directoryName|{}directoryName[0]
+        final fun <get-directoryName>(): kotlin/String // com.vocabloot.widgetbridge/WidgetBridgeConfig.directoryName.<get-directoryName>|<get-directoryName>(){}[0]
+    final val iosAppGroup // com.vocabloot.widgetbridge/WidgetBridgeConfig.iosAppGroup|{}iosAppGroup[0]
+        final fun <get-iosAppGroup>(): kotlin/String? // com.vocabloot.widgetbridge/WidgetBridgeConfig.iosAppGroup.<get-iosAppGroup>|<get-iosAppGroup>(){}[0]
+    final val keepPrevious // com.vocabloot.widgetbridge/WidgetBridgeConfig.keepPrevious|{}keepPrevious[0]
+        final fun <get-keepPrevious>(): kotlin/Int // com.vocabloot.widgetbridge/WidgetBridgeConfig.keepPrevious.<get-keepPrevious>|<get-keepPrevious>(){}[0]
+    final val schemaVersion // com.vocabloot.widgetbridge/WidgetBridgeConfig.schemaVersion|{}schemaVersion[0]
+        final fun <get-schemaVersion>(): kotlin/Int // com.vocabloot.widgetbridge/WidgetBridgeConfig.schemaVersion.<get-schemaVersion>|<get-schemaVersion>(){}[0]
+
+    final fun component1(): kotlin/Int // com.vocabloot.widgetbridge/WidgetBridgeConfig.component1|component1(){}[0]
+    final fun component2(): kotlin/String // com.vocabloot.widgetbridge/WidgetBridgeConfig.component2|component2(){}[0]
+    final fun component3(): kotlin/String? // com.vocabloot.widgetbridge/WidgetBridgeConfig.component3|component3(){}[0]
+    final fun component4(): kotlin/Int // com.vocabloot.widgetbridge/WidgetBridgeConfig.component4|component4(){}[0]
+    final fun copy(kotlin/Int = ..., kotlin/String = ..., kotlin/String? = ..., kotlin/Int = ...): com.vocabloot.widgetbridge/WidgetBridgeConfig // com.vocabloot.widgetbridge/WidgetBridgeConfig.copy|copy(kotlin.Int;kotlin.String;kotlin.String?;kotlin.Int){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // com.vocabloot.widgetbridge/WidgetBridgeConfig.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // com.vocabloot.widgetbridge/WidgetBridgeConfig.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // com.vocabloot.widgetbridge/WidgetBridgeConfig.toString|toString(){}[0]
 }
 
 final class com.vocabloot.widgetbridge/WidgetGeneration { // com.vocabloot.widgetbridge/WidgetGeneration|null[0]
