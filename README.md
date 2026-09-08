@@ -46,13 +46,13 @@ Kotlin reader (Glance) or a ten-line Swift package (WidgetKit).
 | Images | ✅ `WidgetImages` + `AssetBudget` | ✅ same |
 | Redraw | `ACTION_APPWIDGET_UPDATE` broadcast | `WidgetBridgeReloader` |
 | Kotlin in the widget process | Glance runs in the app process | never |
-| Verified on device | ships in Vocabloot | ships in Vocabloot |
+| Verified | Vocabloot development build, Pixel 10 Pro emulator, 2026-09-08 | Vocabloot development build, iPhone 17 Pro simulator, 2026-09-08 |
 
 Targets: `android` (minSdk 24), `iosArm64`, `iosSimulatorArm64`, `iosX64`; Swift package iOS 16+.
 
 ## Who's using it
 
-- [Vocabloot](https://vocabloot.com) ([App Store](https://apps.apple.com/app/id6792888619), [Google Play](https://play.google.com/store/apps/details?id=com.tntstudios.snaplingo)): the vocabulary lock-screen and home-screen widgets on both platforms run on the handoff this library was extracted from (48 images per generation, hourly rotation, "feature this word" override). Vocabloot's development builds run on this library on both platforms as of 2026-09-08 (Glance and WidgetKit, sample-backup pass on the Pixel 10 Pro emulator and the iPhone 17 Pro simulator); the next Vocabloot release is the first store build that carries it.
+- [Vocabloot](https://vocabloot.com) ([App Store](https://apps.apple.com/app/id6792888619), [Google Play](https://play.google.com/store/apps/details?id=com.tntstudios.snaplingo)): the vocabulary home-screen and lock-screen widgets (48 images per generation, hourly rotation, "feature this word" override). The library was extracted from that code, and Vocabloot's development builds run on the library itself on both platforms as of 2026-09-08. The next Vocabloot release is the first store build that carries it.
 
 ## Install
 
@@ -160,6 +160,8 @@ changes and when the locale changes; a debounce and a foreground trigger are twe
 - The extension has no access to your Compose resources: put localised strings in the payload.
 - iOS needs the App Group on **both** targets; without it `WidgetFeedReader(appGroup:)` returns nil and `iosWidgetBridge` throws on first use.
 - Android storage lives in the app's private files dir, so only the app's own widgets can read it. Correct for Glance, not a cross-app channel.
+- Verified so far on the Pixel 10 Pro emulator and the iPhone 17 Pro simulator through Vocabloot's development build (import, publish with images, widget placed, re-read after a change) and through the sample app. No physical-device pass and no store build carry it yet.
+- The fingerprint covers the encoded asset bytes, so `publish` can only report `Unchanged` after your images are encoded. If encoding is expensive, keep a cheap fingerprint of your source data inside the payload and compare it with `bridge.read()?.payload` before packing assets ([docs/refresh.md](docs/refresh.md)).
 - Glance keeps a widget composition alive for a while after it renders, and an update on a live session only recomposes. Read the feed **inside** `provideContent`, keyed on something the receiver bumps per update (the sample uses a `MutableStateFlow` counter), or a second `publish` within that window shows the first one's data.
 
 ## Compared with
