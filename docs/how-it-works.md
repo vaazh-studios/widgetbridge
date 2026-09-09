@@ -29,4 +29,4 @@ flowchart LR
 
 `<root>` is the app's files dir on Android and the App Group container on iOS. Readers try the
 pointer's current, then its previous list, then any other generation newest first, and take the
-first that parses with the expected schema version. Details: [docs/feed-format.md](docs/feed-format.md).
+first that parses with the expected schema version. Details: [feed-format.md](feed-format.md).
