@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.2.0 (unreleased)
+## 0.2.0 (2026-09-09)
 
 - New artifact `com.vocabloot:widgetbridge-test`: `FakeWidgetFeedStorage` and `CountingNotifier`, the fakes the library's own tests run on, so an app can unit-test its publish code without a device.
 - Library code unchanged from 0.1.0; the public API of `widgetbridge` is identical.
