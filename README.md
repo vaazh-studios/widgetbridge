@@ -2,8 +2,7 @@
 
 ![WidgetBridge: one feed from the KMP app, two native widgets](docs/assets/hero.png)
 
-Typed, atomic handoff of data and images from a Kotlin Multiplatform app to its home-screen
-widgets: Jetpack Glance on Android, WidgetKit on iOS. **The widget extension never links Kotlin.**
+Typed, atomic handoff of data and images from a Kotlin Multiplatform app to its home-screen widgets: Jetpack Glance on Android, WidgetKit on iOS. **The widget extension never links Kotlin.**
 
 ![Android](https://img.shields.io/badge/Android-3DDC84?logo=android&logoColor=white)
 ![iOS](https://img.shields.io/badge/iOS-000000?logo=apple&logoColor=white)
@@ -12,9 +11,14 @@ widgets: Jetpack Glance on Android, WidgetKit on iOS. **The widget extension nev
 [![CI](https://github.com/vaazh-studios/widgetbridge/actions/workflows/ci.yml/badge.svg)](https://github.com/vaazh-studios/widgetbridge/actions/workflows/ci.yml)
 [![Kotlin](https://img.shields.io/badge/Kotlin-2.3.20-7F52FF?logo=kotlin&logoColor=white)](https://kotlinlang.org)
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
-[![API reference](https://img.shields.io/badge/API-reference-blue)](https://vaazh-studios.github.io/widgetbridge/)
+[![Docs](https://img.shields.io/badge/Docs-site-blue)](https://vaazh-studios.github.io/widgetbridge/)
+[![Discussions](https://img.shields.io/badge/GitHub-Discussions-2f7a4e)](https://github.com/vaazh-studios/widgetbridge/discussions)
 
-## The problem
+- [Why](#why) · [Features](#features) · [WidgetBridge 101](#widgetbridge-101) · [A more advanced example](#a-more-advanced-example)
+- [Support matrix](#support-matrix) · [Requirements](#requirements) · [Samples](#samples) · [Testing](#testing)
+- [Who's using it](#whos-using-it) · [Communication](#communication) · [Limits and honesty](#limits-and-honesty) · [Compared with](#compared-with)
+
+## Why
 
 Widgets cannot run your shared Kotlin. On iOS the widget is a separate extension with a memory
 ceiling around 30 MB: link the Kotlin framework into it and it gets killed, and App Store
@@ -29,13 +33,78 @@ Kotlin reader (Glance) or a ten-line Swift package (WidgetKit).
 ## Features
 
 - **Typed payload.** Your `@Serializable` class in, the same shape out in Kotlin and as `Decodable` in Swift.
-- **Atomic generations.** A generation is written completely, renamed into place, then the pointer switches. A crash leaves the old or the new set, never a mix.
-- **Fallback.** The previous generation is kept; readers fall back to it when the current one is corrupt or has the wrong schema version.
-- **Images included.** Ship downsampled PNG or JPEG assets with the payload under a byte budget; readers resolve them with path-safety checks.
-- **Dedupe.** Publishing unchanged content writes nothing and does not wake the widgets.
-- **Redraw for free.** Android broadcasts the app-widget update; iOS posts a notification the Swift package turns into `WidgetCenter.reloadAllTimelines()`.
-- **Same rotation on both platforms.** Deterministic hourly slot math with shared test vectors, so Android and iOS show the same item at the same hour.
-- **Small.** Kotlin: coroutines and kotlinx-serialization only. Swift: Foundation only. No Glance, no DI framework, no UI.
+- **Atomic generations with fallback.** Written completely, renamed into place, pointer switched; readers fall back to the previous generation when the current one is corrupt or has the wrong schema.
+- **Images included.** Downsampled PNG or JPEG assets under a byte budget, resolved with path-safety checks.
+- **Dedupe and redraw.** Unchanged content writes nothing; changed content asks the OS to redraw on both platforms.
+- **Same rotation on both platforms.** Hourly slot math with test vectors shared between Kotlin and Swift.
+- **Small.** Kotlin: coroutines and kotlinx-serialization. Swift: Foundation. No Glance dependency, no DI, no UI.
+
+## WidgetBridge 101
+
+```kotlin
+// libs.versions.toml            widgetbridge = { module = "com.vocabloot:widgetbridge", version = "0.2.0" }
+// build.gradle.kts (shared)     commonMain.dependencies { implementation(libs.widgetbridge) }
+```
+```swift
+// Package.swift or Xcode, on the widget extension AND the app target
+.package(url: "https://github.com/vaazh-studios/widgetbridge", from: "0.2.0")
+```
+
+An App Group on both iOS targets, a Glance receiver on Android ([setup](https://vaazh-studios.github.io/widgetbridge/setup-android/)), then:
+
+```kotlin
+// shared
+@Serializable
+data class QuoteFeed(val quotes: List<Quote>, val emptyText: String)      // pre-localised strings
+
+// Android (androidMain)                                                    // iOS (iosMain)
+val bridge = androidWidgetBridge(                                           val bridge = iosWidgetBridge(
+    context, WidgetBridgeConfig(schemaVersion = 1),                             WidgetBridgeConfig(schemaVersion = 1, iosAppGroup = "group.com.example.quotes"),
+    QuoteFeed.serializer(), QuoteWidgetReceiver::class.java,                    QuoteFeed.serializer(),
+)                                                                           )
+
+// publish whenever the data changes (debounced)
+val assets = AssetBudget().pack(quotes.map { AssetCandidate("${'$'}{it.id}.jpg", it.photoPath, WidgetImageFormat.Jpeg) })
+when (bridge.publish(QuoteFeed(quotes, emptyText), assets)) {
+    is PublishResult.Published -> Unit   // widgets were asked to redraw
+    PublishResult.Unchanged -> Unit      // nothing written
+}
+```
+
+```kotlin
+// Android widget, inside provideGlance: read INSIDE the composition, keyed on the receiver's counter
+provideContent {
+    val refresh by QuoteWidget.refreshes.collectAsState()
+    val feed = remember(refresh) { bridge.read() }
+    val index = WidgetRotation.index(WidgetRotation.hourSlot(System.currentTimeMillis(), zoneOffsetSeconds), feed?.payload?.quotes?.size ?: 1)
+    val bitmap = feed?.assetPath("${'$'}{feed.payload.quotes[index].id}.jpg")?.let(BitmapFactory::decodeFile)
+    QuoteCard(feed?.payload?.quotes?.getOrNull(index), bitmap)
+}
+```
+
+```swift
+// iOS widget, inside the TimelineProvider
+let reader = WidgetFeedReader(appGroup: "group.com.example.quotes", schemaVersion: 1)
+guard let feed = reader?.read(QuoteFeed.self) else { return empty }
+let index = WidgetRotation.index(slot: WidgetRotation.hourSlot(date), count: feed.payload.quotes.count)
+let image = feed.assetURL("\(feed.payload.quotes[index].id).jpg").flatMap { UIImage(contentsOfFile: $0.path) }
+```
+
+## A more advanced example
+
+Skip the encode when nothing changed, and let iOS flip the word on the hour without the app running:
+
+```kotlin
+@Serializable data class QuoteFeed(val sourceFingerprint: String, val quotes: List<Quote>, val emptyText: String)
+
+suspend fun publishIfChanged(quotes: List<Quote>) {
+    val fingerprint = sha256Hex(quotes.joinToString("\u001f") { "${'$'}{it.id}|${'$'}{it.text}|${'$'}{it.photoPath}" }.encodeToByteArray())
+    if (bridge.read()?.payload?.sourceFingerprint == fingerprint) return          // one file read, zero encodes
+    bridge.publish(QuoteFeed(fingerprint, quotes, emptyText), AssetBudget().pack(candidates(quotes)))
+}
+```
+
+A 24-entry WidgetKit timeline, Lock Screen families, several widgets from one feed and localized payloads: [recipes](https://vaazh-studios.github.io/widgetbridge/recipes/).
 
 ## Support matrix
 
@@ -50,108 +119,45 @@ Kotlin reader (Glance) or a ten-line Swift package (WidgetKit).
 
 Targets: `android` (minSdk 24), `iosArm64`, `iosSimulatorArm64`, `iosX64`; Swift package iOS 16+.
 
+## Requirements
+
+| | Minimum | Built with |
+|---|---|---|
+| Kotlin / Gradle / AGP | 2.3 / 9.0 / 9.0 | 2.3.20 / 9.4.1 / 9.2.1 |
+| Android | minSdk 24, Glance 1.1 in your app | compileSdk 36 |
+| iOS / Xcode / Swift tools | 16 / 16 / 5.9 | iOS 26 / Xcode 26 |
+
+Versioning, the on-disk format promise and the requirements in full: [stability](https://vaazh-studios.github.io/widgetbridge/stability/).
+
+## Samples
+
+| Sample | Shows | Android | iOS |
+|---|---|---|---|
+| [Quote of the day](sample/README.md) | debounced publish, images under budget, Glance re-read, WidgetKit timeline, featured override | ![Android demo](docs/assets/demo-android.gif) | ![iOS demo](docs/assets/demo-ios.gif) |
+
+## Testing
+
+`com.vocabloot:widgetbridge-test` ships the fakes the library's own tests run on:
+
+```kotlin
+val storage = FakeWidgetFeedStorage(); val notifier = CountingNotifier()
+val bridge = WidgetBridge(WidgetBridgeConfig(schemaVersion = 1), QuoteFeed.serializer(), storage, notifier, clock = { 1L })
+bridge.publish(feed, assets); bridge.publish(feed, assets)
+check(storage.writeCount == 1 && notifier.count == 1)                          // dedupe held
+```
+
 ## Who's using it
 
-- [Vocabloot](https://vocabloot.com) ([App Store](https://apps.apple.com/app/id6792888619), [Google Play](https://play.google.com/store/apps/details?id=com.tntstudios.snaplingo)): the vocabulary home-screen and lock-screen widgets (48 images per generation, hourly rotation, "feature this word" override). The library was extracted from that code, and Vocabloot's development builds run on the library itself on both platforms as of 2026-09-08. The next Vocabloot release is the first store build that carries it.
+- [Vocabloot](https://vocabloot.com) ([App Store](https://apps.apple.com/app/id6792888619), [Google Play](https://play.google.com/store/apps/details?id=com.tntstudios.snaplingo)): the vocabulary home-screen and lock-screen widgets (48 images per generation, hourly rotation, "feature this word" override). The library was extracted from that code; Vocabloot 1.2 is the first store build that runs on the library itself.
 
-## Install
+Works with Glance, WidgetKit, kotlinx-serialization and whatever DI you use; the sample uses none. Using WidgetBridge? Open a PR and add yourself.
 
-Kotlin (shared module):
-```kotlin
-commonMain.dependencies {
-    implementation("com.vocabloot:widgetbridge:0.1.0")
-}
-```
+## Communication
 
-Swift (add to the **widget extension** target, and to the app target for the reloader):
-```swift
-.package(url: "https://github.com/vaazh-studios/widgetbridge", from: "0.1.0")
-```
-
-Then the platform setup once: [Android](docs/setup-android.md) (a Glance receiver), [iOS](docs/setup-ios.md) (an App Group on both targets).
-
-## Quickstart
-
-Kotlin, shared code:
-```kotlin
-@Serializable
-data class QuoteFeed(val quotes: List<Quote>, val emptyText: String)   // pre-localised strings
-
-val bridge = androidWidgetBridge(context, WidgetBridgeConfig(schemaVersion = 1), QuoteFeed.serializer(), QuoteWidgetReceiver::class.java)
-// iOS: iosWidgetBridge(WidgetBridgeConfig(schemaVersion = 1, iosAppGroup = "group.com.example.quotes"), QuoteFeed.serializer())
-
-val assets = AssetBudget().pack(quotes.map { AssetCandidate("${it.id}.jpg", it.photoPath, WidgetImageFormat.Jpeg) })
-when (bridge.publish(QuoteFeed(quotes, emptyText), assets)) {
-    is PublishResult.Published -> Unit   // widgets were asked to redraw
-    PublishResult.Unchanged -> Unit      // nothing written
-}
-```
-
-Android, inside `GlanceAppWidget.provideGlance`:
-```kotlin
-val feed = bridge.read() ?: return provideContent { EmptyCard() }
-val index = WidgetRotation.index(WidgetRotation.hourSlot(now, zoneOffsetSeconds), feed.payload.quotes.size)
-val bitmap = feed.assetPath("${feed.payload.quotes[index].id}.jpg")?.let(BitmapFactory::decodeFile)
-```
-
-iOS, inside the `TimelineProvider`:
-```swift
-let reader = WidgetFeedReader(appGroup: "group.com.example.quotes", schemaVersion: 1)
-guard let feed = reader?.read(QuoteFeed.self) else { return empty }
-let index = WidgetRotation.index(slot: WidgetRotation.hourSlot(date), count: feed.payload.quotes.count)
-let image = feed.assetURL("\(feed.payload.quotes[index].id).jpg").flatMap { UIImage(contentsOfFile: $0.path) }
-```
-
-The sample app in [`sample/`](sample) is this quickstart with a UI on both platforms.
-
-### See it run
-
-Add a quote in the shared Compose UI, mark it featured, go home. The Glance widget and the WidgetKit widget both show it with its cover image, and neither one links the Kotlin framework. Left alone, the card is a slideshow: every hour both platforms move to the same next quote (`WidgetRotation`), with iOS pre-scheduling a day of timeline entries and Android redrawing on `updatePeriodMillis`.
-
-| Android (Glance) | iOS (WidgetKit) |
-|---|---|
-| ![Android demo: add a quote, the Glance widget updates](docs/assets/demo-android.gif) | ![iOS demo: add a quote, the WidgetKit widget updates](docs/assets/demo-ios.gif) |
-
-MP4 versions: [Android](docs/assets/demo-android.mp4), [iOS](docs/assets/demo-ios.mp4). Recorded on a Pixel 9 Pro XL emulator and an iPhone 17 Pro simulator from the code in `sample/`.
-
-## How it works
-
-```mermaid
-flowchart LR
-    subgraph App["App process (Kotlin Multiplatform)"]
-        P["WidgetBridge.publish(payload, assets)"]
-    end
-    P -->|"1. write generations/&lt;id&gt;.tmp/"| T[assets/ + feed.json]
-    T -->|"2. rename to generations/&lt;id&gt;/"| G[(generation folder)]
-    G -->|"3. current.json switches"| C{{current.json}}
-    C -->|4. redraw request| OS[OS]
-    subgraph Widgets["Widget processes"]
-        GL["Glance widget<br/>bridge.read()"]
-        WK["WidgetKit extension<br/>WidgetFeedReader (Swift)<br/><b>no Kotlin linked</b>"]
-    end
-    C -.-> GL
-    C -.-> WK
-    style WK fill:#eef6ff,stroke:#7aa7d9
-    style GL fill:#eefbf0,stroke:#7fc28f
-```
-
-```
-<root>/widgetbridge/
-  current.json                 {"current":"<id>","previous":["<id>"]}
-  generations/<id>/feed.json   {"schemaVersion":1,"generatedAtEpochMs":…,"fingerprint":"<sha256>","payload":{…}}
-  generations/<id>/assets/…
-  generations/<id>.tmp/        in progress, ignored by readers
-```
-
-`<root>` is the app's files dir on Android and the App Group container on iOS. Readers try the
-pointer's current, then its previous list, then any other generation newest first, and take the
-first that parses with the expected schema version. Details: [docs/feed-format.md](docs/feed-format.md).
-
-## When to publish
-
-WidgetBridge does one publish per call and nothing in the background. Republish when your data
-changes and when the locale changes; a debounce and a foreground trigger are twelve lines:
-[docs/refresh.md](docs/refresh.md).
+- Questions and ideas: [Discussions](https://github.com/vaazh-studios/widgetbridge/discussions).
+- Bugs: [Issues](https://github.com/vaazh-studios/widgetbridge/issues/new/choose), with the platform and the generation folder listing if you can.
+- Security: [SECURITY.md](SECURITY.md), privately.
+- Contributing: [CONTRIBUTING.md](CONTRIBUTING.md). Conduct: [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md).
 
 ## Limits and honesty
 
@@ -163,6 +169,8 @@ changes and when the locale changes; a debounce and a foreground trigger are twe
 - Verified so far on the Pixel 10 Pro emulator and the iPhone 17 Pro simulator through Vocabloot's development build (import, publish with images, widget placed, re-read after a change) and through the sample app. No physical-device pass and no store build carry it yet.
 - The fingerprint covers the encoded asset bytes, so `publish` can only report `Unchanged` after your images are encoded. If encoding is expensive, keep a cheap fingerprint of your source data inside the payload and compare it with `bridge.read()?.payload` before packing assets ([docs/refresh.md](docs/refresh.md)).
 - Glance keeps a widget composition alive for a while after it renders, and an update on a live session only recomposes. Read the feed **inside** `provideContent`, keyed on something the receiver bumps per update (the sample uses a `MutableStateFlow` counter), or a second `publish` within that window shows the first one's data.
+
+Open items with workarounds: [known issues](https://vaazh-studios.github.io/widgetbridge/known-issues/).
 
 ## Compared with
 
@@ -177,11 +185,7 @@ changes and when the locale changes; a debounce and a foreground trigger are twe
 
 ## Documentation
 
-- [Android setup](docs/setup-android.md), [iOS setup](docs/setup-ios.md)
-- [Feed format and reader rules](docs/feed-format.md)
-- [When to publish](docs/refresh.md)
-- [Design](docs/design.md), [Publishing](docs/publishing.md) (maintainers)
-- [API reference](https://vaazh-studios.github.io/widgetbridge/) (Dokka); Kotlin ABI tracked in [`widgetbridge/api`](widgetbridge/api).
+[Docs site](https://vaazh-studios.github.io/widgetbridge/): setup, how it works, the feed format, when to publish, recipes, FAQ, known issues, stability. [API reference](https://vaazh-studios.github.io/widgetbridge/api/) (Dokka). Design notes and publishing steps in [docs/](docs/) for maintainers.
 
 ## Dependencies
 

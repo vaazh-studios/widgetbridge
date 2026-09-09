@@ -1,0 +1,39 @@
+site_name: WidgetBridge
+site_url: https://vaazh-studios.github.io/widgetbridge/
+repo_url: https://github.com/vaazh-studios/widgetbridge
+repo_name: vaazh-studios/widgetbridge
+edit_uri: edit/main/docs/
+docs_dir: docs
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: deep orange
+      toggle: { icon: material/brightness-7, name: Dark }
+    - scheme: slate
+      primary: deep orange
+      toggle: { icon: material/brightness-4, name: Light }
+  features: [navigation.sections, navigation.top, content.code.copy, search.suggest]
+markdown_extensions:
+  - admonition
+  - tables
+  - pymdownx.superfences
+  - pymdownx.highlight
+  - toc: { permalink: true }
+nav:
+  - Home: index.md
+  - Setup:
+      - Android: setup-android.md
+      - iOS: setup-ios.md
+  - Guides:
+      - How it works: how-it-works.md
+      - Feed format and reader rules: feed-format.md
+      - When to publish: refresh.md
+      - Recipes: recipes.md
+  - FAQ: faq.md
+  - Known issues: known-issues.md
+  - Stability and versions: stability.md
+  - Maintainers:
+      - Design: design.md
+      - Publishing: publishing.md
+  - API reference: api/index.html
