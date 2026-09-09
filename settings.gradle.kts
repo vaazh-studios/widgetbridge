@@ -16,5 +16,6 @@ dependencyResolutionManagement {
 }
 
 include(":widgetbridge")
+include(":widgetbridge-test")
 include(":sample:shared")
 include(":sample:androidApp")

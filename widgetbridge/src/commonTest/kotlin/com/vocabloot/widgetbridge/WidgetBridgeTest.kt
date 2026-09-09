@@ -1,5 +1,8 @@
 package com.vocabloot.widgetbridge
 
+import com.vocabloot.widgetbridge.test.CountingNotifier
+import com.vocabloot.widgetbridge.test.FakeWidgetFeedStorage
+
 import com.vocabloot.widgetbridge.internal.FeedJson
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.Serializable

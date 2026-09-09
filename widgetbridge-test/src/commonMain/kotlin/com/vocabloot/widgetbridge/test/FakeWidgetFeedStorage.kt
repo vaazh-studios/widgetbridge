@@ -1,11 +1,21 @@
-package com.vocabloot.widgetbridge
+package com.vocabloot.widgetbridge.test
 
-/** In-memory storage honouring the candidate-order contract. Generations are kept in write order, newest first. */
-class FakeWidgetFeedStorage : WidgetFeedStorage {
-    val generations = ArrayDeque<Pair<WidgetGeneration, List<WidgetAsset>>>()
-    var writeCount = 0
-    var lastKeepPrevious = -1
-    var prependCorruptGeneration = false
+import com.vocabloot.widgetbridge.WidgetAsset
+import com.vocabloot.widgetbridge.WidgetFeedStorage
+import com.vocabloot.widgetbridge.WidgetGeneration
+import com.vocabloot.widgetbridge.isSafeName
+
+/**
+ * In-memory [WidgetFeedStorage] honouring the candidate-order contract: generations are kept newest
+ * first and pruned to `keepPrevious + 1`. Flip [prependCorruptGeneration] to put an unreadable
+ * generation ahead of the real ones and test the reader's fallback.
+ */
+public class FakeWidgetFeedStorage : WidgetFeedStorage {
+    /** Newest first, each with the assets written alongside it. */
+    public val generations: ArrayDeque<Pair<WidgetGeneration, List<WidgetAsset>>> = ArrayDeque()
+    public var writeCount: Int = 0
+    public var lastKeepPrevious: Int = -1
+    public var prependCorruptGeneration: Boolean = false
 
     override fun readGenerationCandidates(): List<WidgetGeneration> = buildList {
         if (prependCorruptGeneration) add(WidgetGeneration("corrupt", "/corrupt", "not-json".encodeToByteArray()))
@@ -25,5 +35,7 @@ class FakeWidgetFeedStorage : WidgetFeedStorage {
         return assets.firstOrNull { it.fileName == fileName }?.let { "$generationDirectory/assets/$fileName" }
     }
 
-    override fun clear() = generations.clear()
+    override fun clear() {
+        generations.clear()
+    }
 }

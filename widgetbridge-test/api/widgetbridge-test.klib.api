@@ -1,0 +1,39 @@
+// Klib ABI Dump
+// Targets: [iosArm64, iosSimulatorArm64, iosX64]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <com.vocabloot:widgetbridge-test>
+final class com.vocabloot.widgetbridge.test/CountingNotifier : com.vocabloot.widgetbridge/WidgetRefreshNotifier { // com.vocabloot.widgetbridge.test/CountingNotifier|null[0]
+    constructor <init>() // com.vocabloot.widgetbridge.test/CountingNotifier.<init>|<init>(){}[0]
+
+    final var count // com.vocabloot.widgetbridge.test/CountingNotifier.count|{}count[0]
+        final fun <get-count>(): kotlin/Int // com.vocabloot.widgetbridge.test/CountingNotifier.count.<get-count>|<get-count>(){}[0]
+        final fun <set-count>(kotlin/Int) // com.vocabloot.widgetbridge.test/CountingNotifier.count.<set-count>|<set-count>(kotlin.Int){}[0]
+
+    final fun notifyChanged() // com.vocabloot.widgetbridge.test/CountingNotifier.notifyChanged|notifyChanged(){}[0]
+}
+
+final class com.vocabloot.widgetbridge.test/FakeWidgetFeedStorage : com.vocabloot.widgetbridge/WidgetFeedStorage { // com.vocabloot.widgetbridge.test/FakeWidgetFeedStorage|null[0]
+    constructor <init>() // com.vocabloot.widgetbridge.test/FakeWidgetFeedStorage.<init>|<init>(){}[0]
+
+    final val generations // com.vocabloot.widgetbridge.test/FakeWidgetFeedStorage.generations|{}generations[0]
+        final fun <get-generations>(): kotlin.collections/ArrayDeque<kotlin/Pair<com.vocabloot.widgetbridge/WidgetGeneration, kotlin.collections/List<com.vocabloot.widgetbridge/WidgetAsset>>> // com.vocabloot.widgetbridge.test/FakeWidgetFeedStorage.generations.<get-generations>|<get-generations>(){}[0]
+
+    final var lastKeepPrevious // com.vocabloot.widgetbridge.test/FakeWidgetFeedStorage.lastKeepPrevious|{}lastKeepPrevious[0]
+        final fun <get-lastKeepPrevious>(): kotlin/Int // com.vocabloot.widgetbridge.test/FakeWidgetFeedStorage.lastKeepPrevious.<get-lastKeepPrevious>|<get-lastKeepPrevious>(){}[0]
+        final fun <set-lastKeepPrevious>(kotlin/Int) // com.vocabloot.widgetbridge.test/FakeWidgetFeedStorage.lastKeepPrevious.<set-lastKeepPrevious>|<set-lastKeepPrevious>(kotlin.Int){}[0]
+    final var prependCorruptGeneration // com.vocabloot.widgetbridge.test/FakeWidgetFeedStorage.prependCorruptGeneration|{}prependCorruptGeneration[0]
+        final fun <get-prependCorruptGeneration>(): kotlin/Boolean // com.vocabloot.widgetbridge.test/FakeWidgetFeedStorage.prependCorruptGeneration.<get-prependCorruptGeneration>|<get-prependCorruptGeneration>(){}[0]
+        final fun <set-prependCorruptGeneration>(kotlin/Boolean) // com.vocabloot.widgetbridge.test/FakeWidgetFeedStorage.prependCorruptGeneration.<set-prependCorruptGeneration>|<set-prependCorruptGeneration>(kotlin.Boolean){}[0]
+    final var writeCount // com.vocabloot.widgetbridge.test/FakeWidgetFeedStorage.writeCount|{}writeCount[0]
+        final fun <get-writeCount>(): kotlin/Int // com.vocabloot.widgetbridge.test/FakeWidgetFeedStorage.writeCount.<get-writeCount>|<get-writeCount>(){}[0]
+        final fun <set-writeCount>(kotlin/Int) // com.vocabloot.widgetbridge.test/FakeWidgetFeedStorage.writeCount.<set-writeCount>|<set-writeCount>(kotlin.Int){}[0]
+
+    final fun assetPath(kotlin/String, kotlin/String): kotlin/String? // com.vocabloot.widgetbridge.test/FakeWidgetFeedStorage.assetPath|assetPath(kotlin.String;kotlin.String){}[0]
+    final fun clear() // com.vocabloot.widgetbridge.test/FakeWidgetFeedStorage.clear|clear(){}[0]
+    final fun readGenerationCandidates(): kotlin.collections/List<com.vocabloot.widgetbridge/WidgetGeneration> // com.vocabloot.widgetbridge.test/FakeWidgetFeedStorage.readGenerationCandidates|readGenerationCandidates(){}[0]
+    final fun writeGeneration(kotlin/String, kotlin/ByteArray, kotlin.collections/List<com.vocabloot.widgetbridge/WidgetAsset>, kotlin/Int) // com.vocabloot.widgetbridge.test/FakeWidgetFeedStorage.writeGeneration|writeGeneration(kotlin.String;kotlin.ByteArray;kotlin.collections.List<com.vocabloot.widgetbridge.WidgetAsset>;kotlin.Int){}[0]
+}
