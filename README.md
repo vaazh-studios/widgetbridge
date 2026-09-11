@@ -115,7 +115,6 @@ A 24-entry WidgetKit timeline, Lock Screen families, several widgets from one fe
 | Images | ✅ `WidgetImages` + `AssetBudget` | ✅ same |
 | Redraw | `ACTION_APPWIDGET_UPDATE` broadcast | `WidgetBridgeReloader` |
 | Kotlin in the widget process | Glance runs in the app process | never |
-| Verified | Vocabloot development build, Pixel 10 Pro emulator, 2026-09-08 | Vocabloot development build, iPhone 17 Pro simulator, 2026-09-08 |
 
 Targets: `android` (minSdk 24), `iosArm64`, `iosSimulatorArm64`, `iosX64`; Swift package iOS 16+.
 
@@ -166,7 +165,6 @@ Works with Glance, WidgetKit, kotlinx-serialization and whatever DI you use; the
 - The extension has no access to your Compose resources: put localised strings in the payload.
 - iOS needs the App Group on **both** targets; without it `WidgetFeedReader(appGroup:)` returns nil and `iosWidgetBridge` throws on first use.
 - Android storage lives in the app's private files dir, so only the app's own widgets can read it. Correct for Glance, not a cross-app channel.
-- Verified so far on the Pixel 10 Pro emulator and the iPhone 17 Pro simulator through Vocabloot's development build (import, publish with images, widget placed, re-read after a change) and through the sample app. No physical-device pass and no store build carry it yet.
 - The fingerprint covers the encoded asset bytes, so `publish` can only report `Unchanged` after your images are encoded. If encoding is expensive, keep a cheap fingerprint of your source data inside the payload and compare it with `bridge.read()?.payload` before packing assets ([docs/refresh.md](docs/refresh.md)).
 - Glance keeps a widget composition alive for a while after it renders, and an update on a live session only recomposes. Read the feed **inside** `provideContent`, keyed on something the receiver bumps per update (the sample uses a `MutableStateFlow` counter), or a second `publish` within that window shows the first one's data.
 

@@ -8,6 +8,5 @@ Open items we know about. Each one has a workaround.
 | WidgetKit | `reloadAllTimelines` is rate-limited by iOS | Debounce publishes; pre-schedule a timeline | By design (Apple) |
 | Fingerprint | Only known after assets are encoded | Keep a source fingerprint in the payload and compare first | Documented in refresh |
 | iOS | Placeholder previews in the widget gallery show your placeholder entry, not live data | Ship a good placeholder | By design (Apple) |
-| Verification | No physical-device pass yet; emulator, simulator and Vocabloot's development builds only | | Vocabloot 1.2 is the first store build |
 
 Found another? [Open an issue](https://github.com/vaazh-studios/widgetbridge/issues/new/choose).
