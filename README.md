@@ -16,7 +16,7 @@ Typed, atomic handoff of data and images from a Kotlin Multiplatform app to its 
 
 - [Why](#why) · [Features](#features) · [WidgetBridge 101](#widgetbridge-101) · [A more advanced example](#a-more-advanced-example)
 - [Support matrix](#support-matrix) · [Requirements](#requirements) · [Samples](#samples) · [Testing](#testing)
-- [Who's using it](#whos-using-it) · [Communication](#communication) · [Limits and honesty](#limits-and-honesty) · [Compared with](#compared-with)
+- [Who's using it](#whos-using-it) · [Communication](#communication) · [Limits](#limits) · [Compared with](#compared-with)
 
 ## Why
 
@@ -158,7 +158,7 @@ Works with Glance, WidgetKit, kotlinx-serialization and whatever DI you use; the
 - Security: [SECURITY.md](SECURITY.md), privately.
 - Contributing: [CONTRIBUTING.md](CONTRIBUTING.md). Conduct: [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md).
 
-## Limits and honesty
+## Limits
 
 - No widget UI: you write the Glance and SwiftUI views. For "write the UI once in Kotlin" see [WARP](https://github.com/DevAtrii/Warp).
 - No scheduling: the OS decides when widgets redraw; `publish` only asks.

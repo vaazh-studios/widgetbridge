@@ -22,4 +22,4 @@ The feed format is part of the contract: a reader of version N reads every gener
 
 ## Migration guides
 
-None yet. From the first breaking release on, each major version gets a guide here.
+There have been no breaking releases. From the first one on, each major version gets a guide here.
