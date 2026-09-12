@@ -11,6 +11,7 @@ Typed, atomic handoff of data and images from a Kotlin Multiplatform app to its 
 [![CI](https://github.com/vaazh-studios/widgetbridge/actions/workflows/ci.yml/badge.svg)](https://github.com/vaazh-studios/widgetbridge/actions/workflows/ci.yml)
 [![Kotlin](https://img.shields.io/badge/Kotlin-2.3.20-7F52FF?logo=kotlin&logoColor=white)](https://kotlinlang.org)
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
+[![klibs.io](https://img.shields.io/badge/klibs.io-listed-7F52FF?logo=kotlin&logoColor=white)](https://klibs.io/project/vaazh-studios/widgetbridge)
 [![Docs](https://img.shields.io/badge/Docs-site-blue)](https://vaazh-studios.github.io/widgetbridge/)
 [![Discussions](https://img.shields.io/badge/GitHub-Discussions-2f7a4e)](https://github.com/vaazh-studios/widgetbridge/discussions)
 
