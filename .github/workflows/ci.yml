@@ -17,5 +17,18 @@ jobs:
         run: ./gradlew :widgetbridge:build :widgetbridge:testAndroidHostTest :widgetbridge:iosSimulatorArm64Test :widgetbridge:apiCheck --no-daemon
       - name: Swift package tests
         run: swift test
-      - name: Sample Android
-        run: ./gradlew :sample:androidApp:assembleDebug --no-daemon
+      - name: Sample Android (debug and minified release)
+        run: ./gradlew :sample:androidApp:assembleDebug :sample:androidApp:assembleRelease --no-daemon
+      - name: Consumer keep rules reached R8
+        # widgetbridge/consumer-rules.pro keeps two constructors WorkManager creates by reflection.
+        # The sample's R8 usage report lists everything removed; either constructor in it means
+        # the rules did not reach the consumer build.
+        run: |
+          report=sample/androidApp/build/r8-usage.txt
+          test -s "$report"
+          for cls in androidx.work.OverwritingInputMerger androidx.work.impl.WorkDatabase_Impl; do
+            if awk -v c="$cls:" '$0==c{f=1;next} f&&/^    /{if($0=="    public void <init>()")print "removed";next} {f=0}' "$report" | grep -q removed; then
+              echo "R8 removed $cls.<init>(): the library's consumer keep rules did not reach the sample"; exit 1
+            fi
+          done
+          echo "both reflective constructors kept"

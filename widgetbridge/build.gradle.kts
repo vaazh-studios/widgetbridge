@@ -10,7 +10,7 @@ plugins {
 }
 
 group = "com.vocabloot"
-version = "0.2.0"
+version = "0.3.0"
 
 kotlin {
     explicitApi()
@@ -22,6 +22,11 @@ kotlin {
         minSdk = 24
         compilerOptions { jvmTarget = JvmTarget.JVM_21 }
         withHostTest {}
+        optimization {
+            // See consumer-rules.pro: the WorkManager keep every Glance consumer needs on R8.
+            consumerKeepRules.file("consumer-rules.pro")
+            consumerKeepRules.publish = true
+        }
     }
 
     iosArm64()

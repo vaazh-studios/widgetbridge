@@ -45,12 +45,12 @@ Kotlin reader (Glance) or a ten-line Swift package (WidgetKit).
 ## WidgetBridge 101
 
 ```kotlin
-// libs.versions.toml            widgetbridge = { module = "com.vocabloot:widgetbridge", version = "0.2.0" }
+// libs.versions.toml            widgetbridge = { module = "com.vocabloot:widgetbridge", version = "0.3.0" }
 // build.gradle.kts (shared)     commonMain.dependencies { implementation(libs.widgetbridge) }
 ```
 ```swift
 // Package.swift or Xcode, on the widget extension AND the app target
-.package(url: "https://github.com/vaazh-studios/widgetbridge", from: "0.2.0")
+.package(url: "https://github.com/vaazh-studios/widgetbridge", from: "0.3.0")
 ```
 
 An App Group on both iOS targets, a Glance receiver on Android ([setup](https://vaazh-studios.github.io/widgetbridge/setup-android/)), then:

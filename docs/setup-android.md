@@ -41,4 +41,6 @@ provideContent {
 }
 ```
 
+**R8 and release builds.** Glance renders through a WorkManager worker, and WorkManager creates two classes by reflection whose constructors R8 full mode strips with the keep rules WorkManager 2.7 to 2.9 and Room 2.2 to 2.6 ship: the request's `InputMerger` (the widget then stays on its loading layout forever) and `WorkDatabase_Impl` (the app crashes at launch). WidgetBridge's AAR carries consumer keep rules for both, so a minified app that depends on it needs nothing extra. If you bump `androidx.work` to 2.10 or later its own rules cover the first case; the library's rules stay harmless. Check your own release build once: the sample's `assembleRelease` is minified and CI greps its R8 usage report for both constructors.
+
 Storage is `<filesDir>/widgetbridge` (change the folder with `WidgetBridgeConfig.directoryName`). `publish` and `read` do file I/O; call them from a background dispatcher.

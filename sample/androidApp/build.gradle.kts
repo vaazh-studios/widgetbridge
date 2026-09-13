@@ -15,6 +15,16 @@ android {
         versionName = "0.1.0"
     }
     buildFeatures { compose = true }
+    buildTypes {
+        // Minified like a real release, so the sample proves the library's consumer keep rules
+        // reach R8. Debug-signed so it installs anywhere.
+        release {
+            isMinifyEnabled = true
+            isShrinkResources = true
+            signingConfig = signingConfigs.getByName("debug")
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+        }
+    }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_21
         targetCompatibility = JavaVersion.VERSION_21
