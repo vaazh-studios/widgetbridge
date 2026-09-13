@@ -4,6 +4,8 @@ Typed, atomic handoff of data and images from a Kotlin Multiplatform app to its 
 
 ![WidgetBridge](assets/hero.png)
 
+Built for [Vocabloot](https://vocabloot.com), the photo vocabulary app for iOS and Android. Part of the [Vocabloot open-source libraries](https://vocabloot.com/oss).
+
 ## Start here
 
 1. [Setup, Android](setup-android.md): a Glance receiver and the read-inside-the-composition rule.

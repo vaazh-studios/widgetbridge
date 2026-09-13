@@ -2,6 +2,8 @@
 
 ![WidgetBridge: one feed from the KMP app, two native widgets](docs/assets/hero.png)
 
+Built for [Vocabloot](https://vocabloot.com), the photo vocabulary app for iOS and Android. Part of the [Vocabloot open-source libraries](https://vocabloot.com/oss).
+
 Typed, atomic handoff of data and images from a Kotlin Multiplatform app to its home-screen widgets: Jetpack Glance on Android, WidgetKit on iOS. **The widget extension never links Kotlin.**
 
 ![Android](https://img.shields.io/badge/Android-3DDC84?logo=android&logoColor=white)

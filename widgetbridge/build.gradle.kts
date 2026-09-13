@@ -47,9 +47,9 @@ mavenPublishing {
     coordinates(group.toString(), "widgetbridge", version.toString())
     pom {
         name = "WidgetBridge"
-        description = "Typed, atomic handoff of data and images from a Kotlin Multiplatform app to its Glance and WidgetKit widgets. The widget extension never links Kotlin."
+        description = "Typed, atomic handoff of data and images from a Kotlin Multiplatform app to its Glance and WidgetKit widgets. The widget extension never links Kotlin. Built for Vocabloot (https://vocabloot.com)."
         inceptionYear = "2026"
-        url = "https://github.com/vaazh-studios/widgetbridge"
+        url = "https://vaazh-studios.github.io/widgetbridge/"
         licenses {
             license {
                 name = "The Apache License, Version 2.0"
