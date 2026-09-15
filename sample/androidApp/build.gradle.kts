@@ -31,6 +31,13 @@ android {
     }
 }
 
+// proguard-rules.pro asks R8 for `-printusage build/r8-usage.txt`, which CI greps to prove the
+// library's consumer keep rules reached this build. R8 writes it as a side effect, so declare it
+// as an output: otherwise a FROM-CACHE minifyReleaseWithR8 restores the APK and not the report.
+tasks.matching { it.name == "minifyReleaseWithR8" }.configureEach {
+    outputs.file(layout.buildDirectory.file("r8-usage.txt")).withPropertyName("r8UsageReport")
+}
+
 dependencies {
     implementation(project(":sample:shared"))
     implementation(libs.androidx.activity.compose)

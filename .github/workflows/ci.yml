@@ -25,7 +25,7 @@ jobs:
         # the rules did not reach the consumer build.
         run: |
           report=sample/androidApp/build/r8-usage.txt
-          test -s "$report"
+          test -s "$report" || { echo "no R8 usage report at $report: was minifyReleaseWithR8 skipped or restored without it?"; exit 1; }
           for cls in androidx.work.OverwritingInputMerger androidx.work.impl.WorkDatabase_Impl; do
             if awk -v c="$cls:" '$0==c{f=1;next} f&&/^    /{if($0=="    public void <init>()")print "removed";next} {f=0}' "$report" | grep -q removed; then
               echo "R8 removed $cls.<init>(): the library's consumer keep rules did not reach the sample"; exit 1
